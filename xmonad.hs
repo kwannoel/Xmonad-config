@@ -12,6 +12,7 @@ main = do
     xmonad $ def
         { manageHook = manageDocks <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
+        , handleEventHook    = handleEventHook defaultConfig <+> docksEventHook
         , logHook = do
             updatePointer (0.5, 0.5) (1, 1)
             dynamicLogWithPP xmobarPP
