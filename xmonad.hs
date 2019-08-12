@@ -1,5 +1,7 @@
 import XMonad
 import XMonad.Actions.UpdatePointer
+import XMonad.Actions.PhysicalScreens
+import Data.Default
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
@@ -14,7 +16,7 @@ main = do
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
         , handleEventHook    = handleEventHook defaultConfig <+> docksEventHook
         , logHook = do
-            updatePointer (0.5, 0.5) (1, 1)
+            updatePointer (0.5, 0.5) (0, 0)
             dynamicLogWithPP xmobarPP
                 { ppOutput = hPutStrLn xmproc
                 , ppTitle = xmobarColor "green" "" . shorten 50
@@ -23,4 +25,9 @@ main = do
         } `additionalKeys`
         [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e \'mv $f ~/Pictures/screenshots\'")
         , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshots\'")
+
+        -- Workaround for screen ordering
+        , ((mod4Mask, xK_w), viewScreen horizontalScreenOrderer (P 2))
+        , ((mod4Mask, xK_e), viewScreen horizontalScreenOrderer (P 0))
+        , ((mod4Mask, xK_r), viewScreen horizontalScreenOrderer (P 1))
         ]
