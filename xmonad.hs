@@ -27,7 +27,7 @@ main = do
         , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshots\'")
 
         -- Workaround for screen ordering
-        , ((mod4Mask, xK_w), viewScreen horizontalScreenOrderer (P 2))
-        , ((mod4Mask, xK_e), viewScreen horizontalScreenOrderer (P 0))
-        , ((mod4Mask, xK_r), viewScreen horizontalScreenOrderer (P 1))
+        , ((mod4Mask, xK_w), viewScreen horizontalScreenOrderer (P 0))
+        , ((mod4Mask, xK_e), viewScreen horizontalScreenOrderer (P 1))
+        , ((mod4Mask, xK_r), viewScreen horizontalScreenOrderer (P 2))
         ]
