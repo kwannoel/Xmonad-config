@@ -5,7 +5,8 @@ import Data.Default
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
-import XMonad.Util.EZConfig(additionalKeys)
+import XMonad.Util.EZConfig(additionalKeys, additionalKeysP)
+import XMonad.Actions.Volume
 import System.IO
 
 main = do
@@ -25,9 +26,12 @@ main = do
         } `additionalKeys`
         [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e \'mv $f ~/Pictures/screenshots\'")
         , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshots\'")
-
         -- Workaround for screen ordering
         , ((mod4Mask, xK_w), viewScreen horizontalScreenOrderer (P 0))
         , ((mod4Mask, xK_e), viewScreen horizontalScreenOrderer (P 1))
         , ((mod4Mask, xK_r), viewScreen horizontalScreenOrderer (P 2))
+        ] `additionalKeysP`
+        [ ("<XF86AudioLowerVolume>", setMute True >> lowerVolume 4 >> return ())
+        , ("<XF86AudioRaiseVolume>", setMute True >> raiseVolume 4 >> return ())
+        , ("<XF86AudioMute>", toggleMute >> return ())
         ]
