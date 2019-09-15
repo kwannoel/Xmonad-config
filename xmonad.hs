@@ -34,4 +34,6 @@ main = do
         [ ("<XF86AudioLowerVolume>", setMute True >> lowerVolume 4 >> return ())
         , ("<XF86AudioRaiseVolume>", setMute True >> raiseVolume 4 >> return ())
         , ("<XF86AudioMute>", toggleMute >> return ())
+        , ("<XF86MonBrightnessDown>", spawn "light -U 5")
+        , ("<XF86MonBrightnessUp>", spawn "light -A 5")
         ]
