@@ -1,4 +1,5 @@
 import XMonad
+import XMonad.Actions.SpawnOn
 import XMonad.Actions.UpdatePointer
 import XMonad.Actions.PhysicalScreens
 import Data.Default
@@ -13,7 +14,13 @@ main = do
     xmproc <- spawnPipe "xmobar"
     
     xmonad $ def
-        { manageHook = manageDocks <+> manageHook defaultConfig
+        { startupHook = do
+            -- spawnAndDo (doShift "Prog1") "emacsclient -c -a \"\""
+            -- spawnAndDo (doShift "Prog2") "emacsclient -c -a \"\""
+            -- spawnAndDo (doShift "Term") "emacsclient -c -a \"\""
+            spawnAndDo (doShift "Spotify") "spotify"
+        , workspaces = ["Browser", "Prog1", "Prog2", "Term", "School1", "School2", "Spotify", "8", "9"]
+        , manageHook = manageSpawn <+> manageDocks <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
         , handleEventHook    = handleEventHook defaultConfig <+> docksEventHook
         , logHook = do
@@ -26,6 +33,7 @@ main = do
         } `additionalKeys`
         [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e \'mv $f ~/Pictures/screenshots\'")
         , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshots\'")
+        , ((mod4Mask, xK_x), spawn "emacsclient -c -a \"\"")
         -- Workaround for screen ordering
         , ((mod4Mask, xK_w), viewScreen horizontalScreenOrderer (P 0))
         , ((mod4Mask, xK_e), viewScreen horizontalScreenOrderer (P 1))
@@ -37,3 +45,5 @@ main = do
         , ("<XF86MonBrightnessDown>", spawn "light -U 5")
         , ("<XF86MonBrightnessUp>", spawn "light -A 5")
         ]
+
+-- firefoxHook = [ className =? b --> doF (shift "Browser") | b <- myClass ]
