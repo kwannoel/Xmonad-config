@@ -14,12 +14,12 @@ main = do
     xmproc <- spawnPipe "xmobar"
     
     xmonad $ def
-        { startupHook = do
+        { --startupHook = do
             -- spawnAndDo (doShift "Prog1") "emacsclient -c -a \"\""
             -- spawnAndDo (doShift "Prog2") "emacsclient -c -a \"\""
             -- spawnAndDo (doShift "Term") "emacsclient -c -a \"\""
-            spawnAndDo (doShift "Spotify") "spotify"
-        , workspaces = ["Browser", "Prog1", "Prog2", "Term", "School1", "School2", "Spotify", "8", "9"]
+           -- spawnAndDo (doShift "Spotify") "spotify"
+          workspaces = ["Browser", "Prog1", "Prog2", "Term", "School1", "School2", "Spotify", "8", "9"]
         , manageHook = manageSpawn <+> manageDocks <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
         , handleEventHook    = handleEventHook defaultConfig <+> docksEventHook
@@ -34,6 +34,8 @@ main = do
         [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e \'mv $f ~/Pictures/screenshots\'")
         , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshots\'")
         , ((mod4Mask, xK_x), spawn "emacsclient -c -a \"\"")
+        , ((mod4Mask, xK_s), spawn "source /home/noel/Helpers/screenlayout.sh")
+        , ((mod4Mask, xK_a), spawn "source /home/noel/Helpers/screen-single.sh")
         -- Workaround for screen ordering
         , ((mod4Mask, xK_w), viewScreen horizontalScreenOrderer (P 0))
         , ((mod4Mask, xK_e), viewScreen horizontalScreenOrderer (P 1))
