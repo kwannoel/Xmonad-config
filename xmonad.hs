@@ -19,7 +19,7 @@ main = do
             -- spawnAndDo (doShift "Prog2") "emacsclient -c -a \"\""
             -- spawnAndDo (doShift "Term") "emacsclient -c -a \"\""
            -- spawnAndDo (doShift "Spotify") "spotify"
-          workspaces = ["Browser", "Prog1", "Prog2", "Term", "School1", "School2", "Spotify", "8", "9"]
+          workspaces = ["Firefox", "Chromium", "Prog1", "Prog2", "Scratch", "Notes", "term1", "term2", "School1", "School2"]
         , manageHook = manageSpawn <+> manageDocks <+> manageHook defaultConfig
         , layoutHook = avoidStruts  $  layoutHook defaultConfig
         , handleEventHook    = handleEventHook defaultConfig <+> docksEventHook
@@ -28,6 +28,7 @@ main = do
             dynamicLogWithPP xmobarPP
                 { ppOutput = hPutStrLn xmproc
                 , ppTitle = xmobarColor "green" "" . shorten 50
+                , ppOrder = formatXmobarPP -- Remove layout and title
                 }
         , modMask = mod4Mask     -- Rebind Mod to the Windows key
         } `additionalKeys`
@@ -36,16 +37,20 @@ main = do
         , ((mod4Mask, xK_x), spawn "emacsclient -c -a \"\"")
         , ((mod4Mask, xK_s), spawn "source /home/noel/Helpers/screenlayout.sh")
         , ((mod4Mask, xK_a), spawn "source /home/noel/Helpers/screen-single.sh")
+        , ((mod4Mask, xK_i), spawn "source /home/noel/Helpers/intellij.sh")
         -- Workaround for screen ordering
         , ((mod4Mask, xK_w), viewScreen horizontalScreenOrderer (P 0))
         , ((mod4Mask, xK_e), viewScreen horizontalScreenOrderer (P 1))
         , ((mod4Mask, xK_r), viewScreen horizontalScreenOrderer (P 2))
-        ] `additionalKeysP`
-        [ ("<XF86AudioLowerVolume>", setMute True >> lowerVolume 4 >> return ())
-        , ("<XF86AudioRaiseVolume>", setMute True >> raiseVolume 4 >> return ())
-        , ("<XF86AudioMute>", toggleMute >> return ())
-        , ("<XF86MonBrightnessDown>", spawn "light -U 15")
-        , ("<XF86MonBrightnessUp>", spawn "light -A 15")
+        , ((mod4Mask, xK_F9), setMute True >> lowerVolume 4 >> return ())
+        , ((mod4Mask, xK_F10), setMute True >> raiseVolume 4 >> return ())
+        , ((mod4Mask, xK_F8), toggleMute >> return ())
+        , ((mod4Mask, xK_F6), spawn "light -U 15")
+        , ((mod4Mask, xK_F7), spawn "light -A 15")
         ]
 
+formatXmobarPP :: [String] -> [String]
+formatXmobarPP ls = case ls of
+  [workspace, layout, title] -> [workspace, "", ""]
+  _ -> ls
 -- firefoxHook = [ className =? b --> doF (shift "Browser") | b <- myClass ]
