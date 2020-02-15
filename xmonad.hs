@@ -35,8 +35,8 @@ main = do
         [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e \'mv $f ~/Pictures/screenshots\'")
         , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshots\'")
         , ((mod4Mask, xK_x), spawn "emacsclient -c -a \"\"")
-        , ((mod4Mask, xK_s), spawn "source /home/noel/Helpers/screenlayout.sh")
-        , ((mod4Mask, xK_a), spawn "source /home/noel/Helpers/screen-single.sh")
+        , ((mod4Mask, xK_s), spawn "source /home/noel/user-utils/screen-multi.sh")
+        , ((mod4Mask, xK_a), spawn "source /home/noel/user-utils/screen-single.sh")
         , ((mod4Mask, xK_i), spawn "source /home/noel/Helpers/intellij.sh")
         -- Workaround for screen ordering
         , ((mod4Mask, xK_w), viewScreen horizontalScreenOrderer (P 0))
