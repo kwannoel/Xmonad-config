@@ -32,8 +32,9 @@ main = do
                 }
         , modMask = mod4Mask     -- Rebind Mod to the Windows key
         } `additionalKeys`
-        [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e \'mv $f ~/Pictures/screenshots\'")
-        , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshots\'")
+        [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e \'mv $f ~/Pictures/screenshot.jpg\'")
+        , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshot.jpg\'")
+        , ((mod4Mask, xK_y), spawn "dmenu_run") -- remap from defaults
         , ((mod4Mask, xK_x), spawn "emacsclient -c -a \"\"")
         , ((mod4Mask, xK_s), spawn "source /home/noel/user-utils/screen-multi.sh")
         , ((mod4Mask, xK_a), spawn "source /home/noel/user-utils/screen-single.sh")
