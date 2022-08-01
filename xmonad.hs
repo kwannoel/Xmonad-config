@@ -13,16 +13,16 @@ import System.IO
 main = do
     xmproc <- spawnPipe "xmobar"
     
-    xmonad $ def
+    xmonad $ docks $ def
         { --startupHook = do
             -- spawnAndDo (doShift "Prog1") "emacsclient -c -a \"\""
             -- spawnAndDo (doShift "Prog2") "emacsclient -c -a \"\""
             -- spawnAndDo (doShift "Term") "emacsclient -c -a \"\""
            -- spawnAndDo (doShift "Spotify") "spotify"
           workspaces = ["Firefox", "Chromium", "Prog1", "Prog2", "Scratch", "Notes", "term1", "term2", "School1", "School2"]
-        , manageHook = manageSpawn <+> manageDocks <+> manageHook defaultConfig
-        , layoutHook = avoidStruts  $  layoutHook defaultConfig
-        , handleEventHook    = handleEventHook defaultConfig <+> docksEventHook
+        , manageHook = manageSpawn <+> manageDocks <+> manageHook def
+        , layoutHook = avoidStruts  $  layoutHook def
+        -- , handleEventHook    = handleEventHook def <+> docksEventHook
         , logHook = do
             updatePointer (0.5, 0.5) (0, 0)
             dynamicLogWithPP xmobarPP
@@ -36,9 +36,9 @@ main = do
         , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshot.jpg\'")
         , ((mod4Mask, xK_y), spawn "dmenu_run") -- remap from defaults
         , ((mod4Mask, xK_x), spawn "emacsclient -c -a \"\"")
-        , ((mod4Mask, xK_s), spawn "source /home/noel/user-utils/screen-multi.sh")
+        , ((mod4Mask, xK_s), spawn "source /home/noel/user-utils/screen-multi-2.sh")
         , ((mod4Mask, xK_a), spawn "source /home/noel/user-utils/screen-single.sh")
-        , ((mod4Mask, xK_i), spawn "source /home/noel/user-utils/intellij.sh")
+        -- , ((mod4Mask, xK_i), spawn "source /home/noel/user-utils/intellij.sh")
         -- Workaround for screen ordering
         , ((mod4Mask, xK_w), viewScreen horizontalScreenOrderer (P 0))
         , ((mod4Mask, xK_e), viewScreen horizontalScreenOrderer (P 1))
