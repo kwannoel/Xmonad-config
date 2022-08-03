@@ -8,6 +8,7 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys, additionalKeysP)
 import XMonad.Actions.Volume
+import XMonad.Operations (kill)
 import System.IO
 
 main = do
@@ -35,7 +36,7 @@ main = do
         [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e \'mv $f ~/Pictures/screenshot.jpg\'")
         , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshot.jpg\'")
         , ((mod4Mask, xK_y), spawn "dmenu_run") -- remap from defaults
-        , ((mod4Mask, xK_x), spawn "emacsclient -c -a \"\"")
+        , ((mod4Mask, xK_x), spawn "emacs")
         , ((mod4Mask, xK_s), spawn "source /home/noel/user-utils/screen-multi-2.sh")
         , ((mod4Mask, xK_a), spawn "source /home/noel/user-utils/screen-single.sh")
         -- , ((mod4Mask, xK_i), spawn "source /home/noel/user-utils/intellij.sh")
