@@ -5,7 +5,7 @@ import XMonad.Actions.PhysicalScreens
 import Data.Default
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
-import XMonad.Util.Run(spawnPipe)
+import XMonad.Util.Run(spawnPipe, safeSpawnProg)
 import XMonad.Util.EZConfig(additionalKeys, additionalKeysP)
 import XMonad.Actions.Volume
 import XMonad.Operations (kill)
@@ -31,25 +31,37 @@ main = do
                 , ppTitle = xmobarColor "green" "" . shorten 50
                 , ppOrder = formatXmobarPP -- Remove layout and title
                 }
-        , modMask = mod4Mask     -- Rebind Mod to the Windows key
+        -- FIXME: See why this is bugged.
+        -- xev shows mod4Mask pressed on sporadically.
+        -- There could be hardware issue + xmonad issue.
+        -- e.g. if hardware key is unresponsive,
+        -- xmonad ignores the presses from it after some time.
+        -- , modMask = mod4Mask     -- Rebind Mod to the Windows key
+        -- additionally seems like superL works after alt is pressed.
+        -- regression happens overtime, e.g. maybe 4-5 times after pc is rebooted and xmonad is spawned.
+        -- start xmonad:
+        -- ~/.xmonad/xmonad-x86_64-linux --restart
         } `additionalKeys`
         [ ((controlMask, xK_Print), spawn "sleep 0.2; scrot -s -e \'mv $f ~/Pictures/screenshot.jpg\'")
         , ((0, xK_Print), spawn "scrot -e \'mv $f ~/Pictures/screenshot.jpg\'")
-        , ((mod4Mask, xK_y), spawn "dmenu_run") -- remap from defaults
-        , ((mod4Mask, xK_x), spawn "emacs")
-        , ((mod4Mask, xK_s), spawn "source /home/noel/user-utils/screen-multi-2.sh")
-        , ((mod4Mask, xK_a), spawn "source /home/noel/user-utils/screen-single.sh")
-        -- , ((mod4Mask, xK_i), spawn "source /home/noel/user-utils/intellij.sh")
+        , ((mod1Mask, xK_m), safeSpawnProg "dmenu_run") -- remap from defaults
+        , ((mod1Mask, xK_d), safeSpawnProg "emacs")
+        , ((mod1Mask, xK_s), spawn "source /home/noel/user-utils/screen-multi-2.sh")
+        , ((mod1Mask, xK_a), spawn "source /home/noel/user-utils/screen-single.sh")
+        -- , ((mod4Mask, xK_i), safeSpawnProg "source /home/noel/user-utils/intellij.sh")
         -- Workaround for screen ordering
-        , ((mod4Mask, xK_w), viewScreen horizontalScreenOrderer (P 0))
-        , ((mod4Mask, xK_e), viewScreen horizontalScreenOrderer (P 1))
-        , ((mod4Mask, xK_r), viewScreen horizontalScreenOrderer (P 2))
-        , ((mod4Mask, xK_F9), setMute True >> lowerVolume 4 >> return ())
-        , ((mod4Mask, xK_F10), setMute True >> raiseVolume 4 >> return ())
-        , ((mod4Mask, xK_F8), toggleMute >> return ())
-        , ((mod4Mask, xK_F6), spawn "light -U 15")
-        , ((mod4Mask, xK_F7), spawn "light -A 15")
+        , ((mod1Mask, xK_w), viewScreen horizontalScreenOrderer (P 0))
+        , ((mod1Mask, xK_e), viewScreen horizontalScreenOrderer (P 1))
+        , ((mod1Mask, xK_r), viewScreen horizontalScreenOrderer (P 2))
+        , ((mod1Mask, xK_F9), setMute True >> lowerVolume 4 >> return ())
+        , ((mod1Mask, xK_F10), setMute True >> raiseVolume 4 >> return ())
+        , ((mod1Mask, xK_F8), toggleMute >> return ())
+        , ((mod1Mask, xK_F6), spawn "light -U 15")
+        , ((mod1Mask, xK_F7), spawn "light -A 15")
         ]
+
+-- unresponsive xmonad
+-- cat /proc/$(ps aux | grep [x]monad | cut -d" " -f4)/fd/* > /dev/null
 
 formatXmobarPP :: [String] -> [String]
 formatXmobarPP ls = case ls of
