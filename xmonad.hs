@@ -20,7 +20,8 @@ main = do
             -- spawnAndDo (doShift "Prog2") "emacsclient -c -a \"\""
             -- spawnAndDo (doShift "Term") "emacsclient -c -a \"\""
            -- spawnAndDo (doShift "Spotify") "spotify"
-          workspaces = ["Firefox", "Chromium", "Prog1", "Prog2", "Scratch", "Notes", "term1", "term2", "School1", "School2"]
+          terminal = "konsole"
+        , workspaces = ["Firefox", "Chromium", "Prog1", "Prog2", "Scratch", "Notes", "term1", "term2", "School1", "School2"]
         , manageHook = manageSpawn <+> manageDocks <+> manageHook def
         , layoutHook = avoidStruts  $  layoutHook def
         -- , handleEventHook    = handleEventHook def <+> docksEventHook
